@@ -77,6 +77,7 @@ footer{text-align:center;padding:2rem;color:#444;font-size:.75rem;border-top:1px
 const SB_URL='https://vpvsrjkotstvjywhuacr.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwdnNyamtvdHN0dmp5d2h1YWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcyMzE2MzQsImV4cCI6MjA2MjgwNzYzNH0.BDh59N4okIoJB0aOheqp07lYLgd0A4y3Ho1H26xl2jw';
 const TABLE='noticiasesp';
+function parseTags(h){if(!h)return[];if(Array.isArray(h))return h;if(typeof h==="string")return h.split("#").filter(Boolean);return[]}
 let allNews=[],currentFilter='',searchQuery='';
 
 async function loadNews(){
@@ -89,7 +90,7 @@ checkHash();
 }
 
 function buildFilters(){
-const cats=[...new Set(allNews.flatMap(n=>(n.hashtags||[]).slice(0,3)))].slice(0,8);
+const cats=[...new Set(allNews.flatMap(n=>(parseTags(n.hashtags||[]).slice(0,3)))].slice(0,8);
 const el=document.getElementById('filters');
 el.innerHTML='<div class="filter-btn active" onclick="setFilter(\'\')">Todas</div>'+
 cats.map(c=>`<div class="filter-btn" onclick="setFilter('${c}')">#${c}</div>`).join('');
@@ -99,7 +100,7 @@ function setFilter(f){currentFilter=f;document.querySelectorAll('.filter-btn').f
 
 function getFiltered(){
 let f=allNews;
-if(currentFilter)f=f.filter(n=>(n.hashtags||[]).includes(currentFilter));
+if(currentFilter)f=f.filter(n=>(parseTags(n.hashtags||[]).includes(currentFilter));
 if(searchQuery)f=f.filter(n=>(n.titulo_noticia||'').toLowerCase().includes(searchQuery)||(n.resumo_noticia||'').toLowerCase().includes(searchQuery));
 return f;
 }
@@ -108,7 +109,7 @@ function buildHero(){
 const el=document.getElementById('heroSection');
 if(allNews.length<1){el.innerHTML='<div class="loader">⏳ Esperando primeras noticias...</div>';return}
 const n=allNews[0];
-const cats=(n.hashtags||[]).slice(0,3).map(h=>'#'+h).join(' · ');
+const cats=(parseTags(n.hashtags||[]).slice(0,3).map(h=>'#'+h).join(' · ');
 el.innerHTML=`<div class="hero" onclick="showArticle('${n.slug||n.id}')"><div class="cat">${cats}</div><h1>${n.titulo_noticia}</h1><div class="summary">${(n.resumo_noticia||'').slice(0,250)}...</div></div>`;
 }
 
@@ -116,8 +117,8 @@ function renderNews(){
 const f=getFiltered(),start=currentFilter||searchQuery?0:1;
 const el=document.getElementById('newsGrid');
 el.innerHTML=f.slice(start,60).map(n=>{
-const cats=(n.hashtags||[]).slice(0,2).map(h=>'#'+h).join(' · ');
-const tags=(n.hashtags||[]).slice(0,4).map(h=>`<span class="tag">#${h}</span>`).join('');
+const cats=(parseTags(n.hashtags||[]).slice(0,2).map(h=>'#'+h).join(' · ');
+const tags=(parseTags(n.hashtags||[]).slice(0,4).map(h=>`<span class="tag">#${h}</span>`).join('');
 const date=n.created_at?new Date(n.created_at).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric'}):''
 return`<div class="card" onclick="showArticle('${n.slug||n.id}')"><div class="cat">${cats}</div><h2>${n.titulo_noticia}</h2><div class="summary">${(n.resumo_noticia||'').slice(0,180)}...</div><div class="tags">${tags}</div><div class="meta"><span>${date}</span><span>📖 Leer más</span></div></div>`}).join('');
 }
@@ -143,7 +144,7 @@ const d=await r.json();if(d.length)n=d[0];
 if(!n)return;
 document.getElementById('artTitle').textContent=n.titulo_noticia;
 const date=n.created_at?new Date(n.created_at).toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):''
-document.getElementById('artMeta').innerHTML=`${date} · ${(n.hashtags||[]).map(h=>'<span style="color:var(--accent)">#'+h+'</span>').join(' ')}`;
+document.getElementById('artMeta').innerHTML=`${date} · ${(parseTags(n.hashtags||[]).map(h=>'<span style="color:var(--accent)">#'+h+'</span>').join(' ')}`;
 document.getElementById('artBody').innerHTML=parseMarkdown(n.corpo_noticia||n.resumo_noticia||'');
 document.getElementById('mainView').style.display='none';
 document.getElementById('articleView').style.display='block';
