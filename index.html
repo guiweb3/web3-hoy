@@ -1,162 +1,253 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Web3 Hoy — Web3 explicado para todos</title>
-  <meta name="description" content="Las últimas noticias del mundo crypto, blockchain, Bitcoin, DeFi y Web3 en español.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg: #111111;--surface:#111;--surface2:#1a1a1a;--surface3:#222;
-      --accent: #80ed99;--accent2: #57cc99;--accent-dim:rgba(245,158,11,.1);
-      --red:#ff4757;--orange:#ffa502;--blue:#3b82f6;--purple:#8b5cf6;
-      --text:#f0f0f0;--text2:#999;--text3:#555;
-      --border:#222;--border2:#333;
-      --radius:10px;--max-w:1280px;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
-    a{color:inherit;text-decoration:none}
-    nav{position:sticky;top:0;z-index:100;background:rgba(10,10,10,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-    .nav-inner{max-width:var(--max-w);margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:56px}
-    .logo{font-size:20px;font-weight:900;letter-spacing:-1px;cursor:pointer}
-    .logo span{color:var(--accent)}
-    .nav-links{display:flex;gap:24px;font-size:13px;font-weight:500;color:var(--text2)}
-    .nav-links a:hover{color:var(--accent)}
-    .nav-search{padding:6px 12px 6px 32px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:12px;width:200px;outline:none;font-family:inherit;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%23555' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.344.656a5 5 0 1 1 0-10 5 5 0 0 1 0 10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:10px center}
-    .nav-search:focus{border-color:var(--accent)}
-    .lang-badge{font-size:10px;padding:3px 8px;border-radius:4px;background:var(--accent-dim);color:var(--accent);font-weight:700}
-    .ticker{background:var(--accent);overflow:hidden;height:32px;display:flex;align-items:center}
-    .ticker-inner{display:flex;animation:scroll 40s linear infinite;white-space:nowrap}
-    .ticker-item{font-size:11px;font-weight:700;color:#000;padding:0 32px;text-transform:uppercase;letter-spacing:.5px}
-    @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-    .hero{max-width:var(--max-w);margin:0 auto;padding:24px 20px 0}
-    .hero-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
-    @media(max-width:900px){.hero-grid{grid-template-columns:1fr}}
-    .hero-main{position:relative;border-radius:var(--radius);overflow:hidden;min-height:420px;cursor:pointer;transition:transform .2s}
-    .hero-main:hover{transform:scale(1.005)}
-    .hero-main img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
-    .hero-main .overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.9) 0%,rgba(0,0,0,.3) 50%,rgba(0,0,0,.1) 100%);padding:24px;display:flex;flex-direction:column;justify-content:flex-end}
-    .hero-main .cat{display:inline-block;background:var(--accent);color:#000;font-size:10px;font-weight:800;padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;width:fit-content}
-    .hero-main h2{font-size:28px;font-weight:800;line-height:1.2;margin-bottom:8px;letter-spacing:-.5px}
-    .hero-main p{font-size:14px;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-    .hero-main .meta{font-size:11px;color:var(--text3);margin-top:8px}
-    .hero-side{display:flex;flex-direction:column;gap:12px}
-    .hero-side-card{position:relative;border-radius:var(--radius);overflow:hidden;flex:1;min-height:130px;cursor:pointer;transition:transform .2s}
-    .hero-side-card:hover{transform:scale(1.005)}
-    .hero-side-card img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
-    .hero-side-card .overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.2) 100%);padding:14px;display:flex;flex-direction:column;justify-content:flex-end}
-    .hero-side-card h3{font-size:15px;font-weight:700;line-height:1.3;letter-spacing:-.3px}
-    .hero-side-card .meta{font-size:10px;color:var(--text3);margin-top:4px}
-    .section{max-width:var(--max-w);margin:0 auto;padding:32px 20px 0}
-    .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;border-bottom:2px solid var(--accent);padding-bottom:8px}
-    .section-header h2{font-size:18px;font-weight:800;letter-spacing:-.3px}
-    .section-header .more{font-size:12px;color:var(--accent);font-weight:600}
-    .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-    .news-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all .2s}
-    .news-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
-    .news-card .thumb{width:100%;height:180px;object-fit:cover;display:block}
-    .news-card .body{padding:14px}
-    .news-card .tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-    .news-card .tag{font-size:9px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.3px}
-    .news-card h3{font-size:15px;font-weight:700;line-height:1.35;margin-bottom:6px;letter-spacing:-.2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-    .news-card .summary{font-size:12px;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-    .news-card .card-meta{display:flex;align-items:center;justify-content:space-between;margin-top:10px;font-size:10px;color:var(--text3)}
-    .article-page{display:none;max-width:800px;margin:0 auto;padding:32px 20px}
-    .article-page .back{font-size:12px;color:var(--accent);cursor:pointer;margin-bottom:16px;display:inline-block}
-    .article-page .back:hover{text-decoration:underline}
-    .article-page .art-cat{display:inline-block;background:var(--accent);color:#000;font-size:10px;font-weight:800;padding:3px 8px;border-radius:4px;text-transform:uppercase;margin-bottom:12px}
-    .article-page h1{font-size:32px;font-weight:900;line-height:1.15;letter-spacing:-.5px;margin-bottom:12px}
-    .article-page .art-meta{font-size:12px;color:var(--text3);margin-bottom:20px;display:flex;gap:16px}
-    .article-page .art-img{width:100%;border-radius:var(--radius);margin-bottom:20px;max-height:420px;object-fit:cover}
-    .article-page .art-body{font-size:16px;line-height:1.85;color:var(--text2)}
-    .article-page .art-body h2{font-size:22px;font-weight:800;color:var(--text);margin:28px 0 12px}
-    .article-page .art-body h3{font-size:18px;font-weight:700;color:var(--text);margin:24px 0 10px}
-    .article-page .art-body p{margin-bottom:16px}
-    .article-page .art-body strong{color:var(--text);font-weight:700}
-    .article-page .art-body em{color:var(--accent2);font-style:italic}
-    .article-page .art-body ul{margin:12px 0 16px 24px}
-    .article-page .art-body li{margin-bottom:6px}
-    .article-page .art-body blockquote{border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--accent-dim);border-radius:0 8px 8px 0;font-style:italic}
-    .article-page .art-body a{color:var(--accent);text-decoration:underline}
-    .article-page .art-tags{margin-top:24px;display:flex;gap:8px;flex-wrap:wrap}
-    .article-page .art-tag{font-size:11px;padding:4px 10px;border-radius:16px;background:var(--accent-dim);color:var(--accent);font-weight:600}
-    footer{background:var(--surface);border-top:1px solid var(--border);margin-top:48px;padding:32px 20px}
-    .footer-inner{max-width:var(--max-w);margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
-    .footer-logo{font-size:18px;font-weight:900;letter-spacing:-1px}
-    .footer-logo span{color:var(--accent)}
-    .footer-links{display:flex;gap:20px;font-size:12px;color:var(--text3)}
-    .footer-copy{font-size:11px;color:var(--text3)}
-    .loader{text-align:center;padding:60px;color:var(--text3)}
-    .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .load-more{text-align:center;padding:24px}
-    .load-more button{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:10px 28px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
-    .load-more button:hover{border-color:var(--accent);color:var(--accent)}
-    @media(max-width:600px){.hero-main{min-height:280px}.hero-main h2{font-size:20px}.nav-links{display:none}.nav-search{width:140px}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Web3 Hoy — Web3 explicado para todos</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟢</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#111;--paper:#fafaf8;--warm:#f2efe9;--accent:#80ed99;--muted:#999;--border:#e5e2dc}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent);color:var(--ink)}
+
+/* HEADER — Narrative style */
+.promo-bar{background:var(--accent);text-align:center;padding:8px;font-size:.72rem;font-weight:600;letter-spacing:.5px}
+.header{max-width:1100px;margin:0 auto;padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.logo{font-family:'Instrument Serif',serif;font-size:1.8rem}
+.nav{display:flex;gap:2rem;align-items:center}
+.nav a{font-size:.82rem;color:var(--muted);font-weight:500;transition:.2s}
+.nav a:hover{color:var(--ink)}
+.subscribe-btn{background:var(--ink);color:#fff;padding:8px 20px;border-radius:20px;font-size:.8rem;font-weight:600;transition:.2s;cursor:pointer}
+.subscribe-btn:hover{background:#333}
+.search-input{border:none;background:transparent;font-size:.85rem;font-family:inherit;color:var(--ink);outline:none;width:0;transition:width .3s;overflow:hidden}
+.search-input.open{width:180px;padding-left:8px}
+.search-toggle{cursor:pointer;padding:4px}
+
+/* HERO — Big title with email capture */
+.hero-wrapper{max-width:700px;margin:4rem auto 3rem;text-align:center;padding:0 2rem}
+.hero-wrapper h1{font-family:'Instrument Serif',serif;font-size:3rem;font-weight:400;line-height:1.2;margin-bottom:1.5rem}
+.email-bar{display:flex;gap:0;max-width:400px;margin:0 auto 8px;border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.email-bar input{flex:1;padding:12px 16px;border:none;font-family:inherit;font-size:.85rem;background:#fff}
+.email-bar input:focus{outline:none}
+.email-bar button{background:var(--ink);color:#fff;border:none;padding:12px 20px;font-family:inherit;font-size:.8rem;font-weight:600;cursor:pointer}
+.small-note{font-size:.72rem;color:var(--muted)}
+.divider{max-width:1100px;margin:0 auto;height:1px;background:var(--border)}
+
+/* FEATURED — Large card + side */
+.featured{max-width:1100px;margin:3rem auto;padding:0 2rem;display:grid;grid-template-columns:1.3fr 1fr;gap:3rem}
+.featured-main{cursor:pointer}
+.featured-main:hover h2{opacity:.7}
+.featured-img{background:linear-gradient(135deg,var(--warm),#ddd5c8);border-radius:8px;height:320px;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.featured-img::after{content:'⛓';position:absolute;bottom:15px;right:20px;font-size:3rem;opacity:.15}
+.featured-main h2{font-family:'Instrument Serif',serif;font-size:2rem;font-weight:400;line-height:1.25;margin-bottom:.8rem;transition:.2s}
+.featured-main p{font-size:.9rem;line-height:1.7;color:var(--muted)}
+.featured-main .meta{margin-top:1rem;font-size:.75rem;color:var(--muted)}
+.featured-main .meta span{color:var(--ink);font-weight:500}
+.featured-side{display:flex;flex-direction:column;gap:0}
+.side-card{padding:1.5rem 0;border-bottom:1px solid var(--border);cursor:pointer;display:grid;grid-template-columns:1fr 100px;gap:1.5rem;align-items:start}
+.side-card:first-child{padding-top:0}
+.side-card:last-child{border-bottom:none}
+.side-card:hover h3{opacity:.6}
+.side-card h3{font-family:'Instrument Serif',serif;font-size:1.15rem;font-weight:400;line-height:1.35;transition:.2s}
+.side-card p{font-size:.8rem;color:var(--muted);line-height:1.5;margin-top:6px}
+.side-card .meta{font-size:.7rem;color:var(--muted);margin-top:6px}
+.side-card .meta span{color:var(--ink);font-weight:500}
+.side-thumb{width:100px;height:80px;background:var(--warm);border-radius:6px}
+.side-thumb:nth-child(2){background:#e8ddd0}
+
+/* NEWS GRID — Narrative 2-col layout */
+.grid-section{max-width:1100px;margin:2rem auto;padding:0 2rem}
+.grid-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
+.grid-header h2{font-family:'Instrument Serif',serif;font-size:1.4rem;font-weight:400}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filter-btn{background:none;border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:.72rem;font-family:inherit;color:var(--muted);cursor:pointer;transition:.2s;font-weight:500}
+.filter-btn:hover,.filter-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+.news-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
+.news-card{cursor:pointer;padding-bottom:2rem;border-bottom:1px solid var(--border)}
+.news-card:hover h3{opacity:.6}
+.card-img{height:200px;background:var(--warm);border-radius:8px;margin-bottom:1rem;position:relative;overflow:hidden}
+.card-img.v2{background:linear-gradient(135deg,#e8ddd0,#d5cfc5)}
+.card-img.v3{background:linear-gradient(135deg,#dde8d0,#c5d5bf)}
+.card-img.v4{background:linear-gradient(135deg,#d0dde8,#bfc5d5)}
+.news-card h3{font-family:'Instrument Serif',serif;font-size:1.3rem;font-weight:400;line-height:1.3;margin-bottom:6px;transition:.2s}
+.news-card p{font-size:.85rem;line-height:1.65;color:var(--muted)}
+.news-card .meta{font-size:.72rem;color:var(--muted);margin-top:8px}
+.news-card .meta span{color:var(--ink);font-weight:500}
+
+/* NEWSLETTER BANNER */
+.newsletter-banner{max-width:1100px;margin:3rem auto;padding:3rem;background:var(--warm);border-radius:8px;display:flex;align-items:center;justify-content:space-between}
+.newsletter-banner h2{font-family:'Instrument Serif',serif;font-size:1.5rem;font-weight:400}
+.newsletter-banner .email-bar{margin:0;border:1px solid var(--border)}
+
+/* FOOTER */
+footer{max-width:1100px;margin:3rem auto 0;padding:3rem 2rem;border-top:1px solid var(--border);display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem}
+footer .f-brand{font-family:'Instrument Serif',serif;font-size:1.5rem}
+footer .f-brand p{font-family:'DM Sans',sans-serif;font-size:.8rem;color:var(--muted);margin-top:8px;font-weight:400}
+footer h4{font-size:.68rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:1rem;font-weight:600}
+footer ul{list-style:none}footer li{margin-bottom:8px}
+footer li a{font-size:.82rem;color:var(--ink);transition:.2s}footer li a:hover{opacity:.5}
+.f-bottom{text-align:center;padding:2rem;font-size:.7rem;color:var(--muted)}
+
+/* ARTICLE */
+.article-view{display:none;max-width:680px;margin:0 auto;padding:3rem 2rem}
+.back-btn{font-size:.8rem;color:var(--muted);cursor:pointer;margin-bottom:2rem;font-weight:500;transition:.2s}
+.back-btn:hover{color:var(--ink)}
+.article-view h1{font-family:'Instrument Serif',serif;font-size:2.5rem;font-weight:400;line-height:1.2;margin-bottom:1rem}
+.article-view .article-meta{font-size:.78rem;color:var(--muted);margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.article-view .article-body{font-size:1.05rem;line-height:1.9;color:#444}
+.article-view .article-body h2{font-family:'Instrument Serif',serif;font-size:1.6rem;font-weight:400;margin:2rem 0 1rem;color:var(--ink)}
+.article-view .article-body h3{font-size:1.15rem;margin:1.5rem 0 .8rem;font-weight:600}
+.article-view .article-body p{margin-bottom:1.2rem}
+.article-view .article-body strong{color:var(--ink);font-weight:600}
+.article-view .article-body blockquote{border-left:3px solid var(--accent);padding:1rem 1.5rem;margin:1.5rem 0;color:var(--muted);background:var(--warm);border-radius:0 6px 6px 0}
+.article-view .article-body ul,.article-view .article-body ol{margin:1rem 0 1rem 1.5rem}
+.article-view .article-body li{margin-bottom:.5rem}
+
+.loader{text-align:center;padding:4rem;font-family:'Instrument Serif',serif;font-size:1.1rem;color:var(--muted)}
+
+@media(max-width:768px){
+.hero-wrapper h1{font-size:2rem}
+.featured{grid-template-columns:1fr}
+.news-grid{grid-template-columns:1fr}
+.nav{display:none}
+footer{grid-template-columns:1fr 1fr}
+.newsletter-banner{flex-direction:column;text-align:center;gap:1.5rem}
+}
+</style>
 </head>
 <body>
-  <nav>
-    <div class="nav-inner">
-      <div class="logo" onclick="goHome()">Cripto<span>Noticias</span> <span class="lang-badge">ES</span></div>
-      <div class="nav-links">
-        <a href="#" onclick="filterTag('Bitcoin')">Bitcoin</a>
-        <a href="#" onclick="filterTag('Ethereum')">Ethereum</a>
-        <a href="#" onclick="filterTag('DeFi')">DeFi</a>
-        <a href="#" onclick="filterTag('BNB')">BNB Chain</a>
-        <a href="#" onclick="filterTag('')">Todas</a>
-      </div>
-      <input class="nav-search" id="searchInput" type="text" placeholder="Buscar noticias..." oninput="debounceSearch()">
-    </div>
-  </nav>
-  <div class="ticker"><div class="ticker-inner" id="ticker"></div></div>
-  <div id="homePage">
-    <div class="hero" id="heroSection"><div class="loader"><div class="spinner"></div>Cargando noticias...</div></div>
-    <div class="section">
-      <div class="section-header"><h2>📰 Últimas Noticias</h2><span class="more" id="resultCount"></span></div>
-      <div class="news-grid" id="newsGrid"></div>
-      <div class="load-more" id="loadMore" style="display:none"><button onclick="loadMoreNews()">Cargar más noticias</button></div>
-    </div>
-  </div>
-  <div class="article-page" id="articlePage"></div>
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-logo">Cripto<span>Noticias</span></div>
-      <div class="footer-links"><a href="#">Acerca de</a><a href="#">Contacto</a><a href="#">Términos</a></div>
-      <div class="footer-copy">© 2026 CriptoNoticias. Todas las noticias son generadas automáticamente.</div>
-    </div>
-  </footer>
+
+<div class="promo-bar">📡 Información blockchain actualizada cada hora · Noticias en español</div>
+
+<div class="header">
+<div class="logo">Web3 Hoy</div>
+<div class="nav" id="navFilters"></div>
+<div style="display:flex;align-items:center;gap:12px">
+<input class="search-input open" type="text" placeholder="Buscar..." oninput="doSearch(this.value)">
+<div class="subscribe-btn">Suscribir</div>
+</div>
+</div>
+
+<div id="mainView">
+<div class="hero-wrapper">
+<h1>Pensamientos, análisis y noticias de Web3 Hoy</h1>
+<div class="email-bar"><input type="email" placeholder="Tu email"><button>Suscribir</button></div>
+<div class="small-note">Contenido de calidad. Sin spam.</div>
+</div>
+
+<div class="divider"></div>
+
+<div id="heroSection"></div>
+
+<div class="divider"></div>
+
+<div class="grid-section">
+<div class="grid-header">
+<h2>Más noticias</h2>
+<div class="filters" id="filters"></div>
+</div>
+<div class="news-grid" id="newsGrid"></div>
+</div>
+
+<div class="newsletter-banner">
+<h2>Recibe lo mejor directo en tu inbox</h2>
+<div class="email-bar"><input type="email" placeholder="Tu email"><button>Suscribir</button></div>
+</div>
+</div>
+
+<div class="article-view" id="articleView">
+<div class="back-btn" onclick="goBack()">← Volver</div>
+<h1 id="artTitle"></h1>
+<div class="article-meta" id="artMeta"></div>
+<div class="article-body" id="artBody"></div>
+</div>
+
+<footer>
+<div><div class="f-brand">Web3 Hoy</div><p>Noticias blockchain confiables en español.</p></div>
+<div><h4>Páginas</h4><ul><li><a href="#">Inicio</a></li><li><a href="#">Suscribir</a></li></ul></div>
+<div><h4>Categorías</h4><ul><li><a href="#" onclick="setFilter('bitcoin')">Bitcoin</a></li><li><a href="#" onclick="setFilter('defi')">DeFi</a></li><li><a href="#" onclick="setFilter('blockchain')">Blockchain</a></li></ul></div>
+<div><h4>Contacto</h4><ul><li><a href="#">Twitter</a></li><li><a href="#">Telegram</a></li><li><a href="#">Email</a></li></ul></div>
+</footer>
+<div class="f-bottom">© 2026 Web3 Hoy · Web3 explicado para todos</div>
+
 <script>
 const SUPABASE_URL='https://vpvsrjkotstvjywhuacr.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwdnNyamtvdHN0dmp5d2h1YWNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcyMzE2MzQsImV4cCI6MjA2MjgwNzYzNH0.BDh59N4okIoJB0aOheqp07lYLgd0A4y3Ho1H26xl2jw';
-const TABLE='noticiasesp';
-const PAGE_SIZE=12;
-let allNews=[],displayedCount=0,currentFilter='',searchQuery='',searchTimer=null;
-const headers={'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`};
-function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML}
-function renderMarkdown(t){if(!t)return '';let h=t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/^####\s+(.+)$/gm,'<h4>$1</h4>').replace(/^###\s+(.+)$/gm,'<h3>$1</h3>').replace(/^##\s+(.+)$/gm,'<h2>$1</h2>').replace(/\*\*\*(.+?)\*\*\*/g,'<strong><em>$1</em></strong>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/^>\s+(.+)$/gm,'<blockquote>$1</blockquote>').replace(/^[-*]\s+(.+)$/gm,'<li>$1</li>').replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank">$1</a>').replace(/(#\w+)/g,'<span style="color:var(--accent);font-weight:600">$1</span>');h=h.replace(/(<li>.*?<\/li>\n?)+/gs,m=>`<ul>${m}</ul>`);h=h.split(/\n\n+/).map(b=>{b=b.trim();if(!b)return '';if(/^<(h[1-4]|ul|ol|li|blockquote|hr|div|p)/.test(b))return b;return `<p>${b}</p>`}).join('\n');return h}
-function timeAgo(d){const now=new Date(),dt=new Date(d),diff=Math.floor((now-dt)/1000);if(diff<60)return 'ahora';if(diff<3600)return `${Math.floor(diff/60)}min`;if(diff<86400)return `${Math.floor(diff/3600)}h`;if(diff<604800)return `${Math.floor(diff/86400)}d`;return dt.toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'})}
-function formatDate(d){return new Date(d).toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})}
-function parseTags(h){if(!h)return [];return h.replace(/#/g,' #').split(/[\s,]+/).filter(t=>t.startsWith('#')).map(t=>t.slice(1)).filter(Boolean).slice(0,5)}
-function fallbackImg(el){el.onerror=null;el.src='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" fill="%23111"><rect width="800" height="400"/><text x="400" y="210" text-anchor="middle" fill="%23333" font-family="Inter" font-size="18">CriptoNoticias</text></svg>')}
-async function fetchNews(limit=100,offset=0){let url=`${SUPABASE_URL}/rest/v1/${TABLE}?select=*&status=eq.publicado&order=created_at.desc&limit=${limit}&offset=${offset}`;const r=await fetch(url,{headers});return r.json()}
-async function init(){try{allNews=await fetchNews(200,0);if(allNews.error||!Array.isArray(allNews)){document.getElementById('heroSection').innerHTML='<div class="loader">⏳ Esperando primeras noticias... El workflow está activo y recopilando noticias.</div>';return}}catch(e){document.getElementById('heroSection').innerHTML='<div class="loader">Error al cargar noticias</div>';return}buildTicker();const hash=window.location.hash,match=hash.match(/^#\/article\/(.+)$/);if(match){openArticleBySlug(decodeURIComponent(match[1]))}else{buildHero();displayedCount=0;renderNews()}}
-function buildTicker(){const items=allNews.slice(0,10).map(n=>`<span class="ticker-item">🔥 ${esc(n.titulo_noticia)}</span>`).join('');document.getElementById('ticker').innerHTML=items+items}
-function buildHero(){const el=document.getElementById('heroSection');if(allNews.length<1){el.innerHTML='<div class="loader">⏳ Esperando noticias...</div>';return}if(allNews.length<4){el.innerHTML='';renderNews();return}const m=allNews[0],s=allNews.slice(1,4),tags=parseTags(m.hashtags);el.innerHTML=`<div class="hero-grid"><div class="hero-main" onclick="openArticle(0)"><img src="${esc(m.capa_noticia)}" onerror="fallbackImg(this)"><div class="overlay">${tags[0]?`<span class="cat">${esc(tags[0])}</span>`:''}<h2>${esc(m.titulo_noticia)}</h2><p>${esc(m.resumo_noticia)}</p><div class="meta">${esc(m.autor)} · ${timeAgo(m.created_at)}</div></div></div><div class="hero-side">${s.map((n,i)=>`<div class="hero-side-card" onclick="openArticle(${i+1})"><img src="${esc(n.capa_noticia)}" onerror="fallbackImg(this)"><div class="overlay"><h3>${esc(n.titulo_noticia)}</h3><div class="meta">${timeAgo(n.created_at)}</div></div></div>`).join('')}</div></div>`}
-function getFiltered(){return allNews.filter(n=>{const mt=!currentFilter||(n.hashtags||'').toLowerCase().includes(currentFilter.toLowerCase())||(n.titulo_noticia||'').toLowerCase().includes(currentFilter.toLowerCase());const ms=!searchQuery||(n.titulo_noticia||'').toLowerCase().includes(searchQuery)||(n.resumo_noticia||'').toLowerCase().includes(searchQuery);return mt&&ms})}
-function renderNews(){const f=getFiltered(),start=currentFilter||searchQuery?0:(allNews.length>=4?4:0),show=f.slice(start,start+displayedCount+PAGE_SIZE);displayedCount=show.length;document.getElementById('newsGrid').innerHTML=show.map((n,i)=>{const idx=allNews.indexOf(n),tags=parseTags(n.hashtags);return `<div class="news-card" onclick="openArticle(${idx})"><img class="thumb" src="${esc(n.capa_noticia)}" onerror="fallbackImg(this)"><div class="body"><div class="tags">${tags.slice(0,3).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div><h3>${esc(n.titulo_noticia)}</h3><p class="summary">${esc(n.resumo_noticia)}</p><div class="card-meta"><span>${esc(n.autor)}</span><span>${timeAgo(n.created_at)}</span></div></div></div>`}).join('');document.getElementById('resultCount').textContent=`${f.length} noticias`;document.getElementById('loadMore').style.display=(start+displayedCount)<f.length?'block':'none'}
-function loadMoreNews(){displayedCount+=PAGE_SIZE;renderNews()}
-function openArticle(idx){const n=typeof idx==='number'?allNews[idx]:allNews.find(a=>a.slug===idx);if(!n)return;window.location.hash=`/article/${n.slug}`;renderArticle(n)}
-function renderArticle(n){const tags=parseTags(n.hashtags);document.getElementById('homePage').style.display='none';const ap=document.getElementById('articlePage');ap.style.display='block';ap.innerHTML=`<span class="back" onclick="goHome()">← Volver a noticias</span>${tags[0]?`<span class="art-cat">${esc(tags[0])}</span>`:''}<h1>${esc(n.titulo_noticia)}</h1><div class="art-meta"><span>✍️ ${esc(n.autor)}</span><span>📅 ${formatDate(n.created_at)}</span></div><img class="art-img" src="${esc(n.capa_noticia)}" onerror="fallbackImg(this)"><div class="art-body">${renderMarkdown(n.resumo_noticia)}</div><div class="art-tags">${tags.map(t=>`<span class="art-tag">#${esc(t)}</span>`).join('')}</div>`;window.scrollTo(0,0)}
-async function openArticleBySlug(slug){let n=allNews.find(a=>a.slug===slug);if(n){renderArticle(n);return}const r=await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?slug=eq.${encodeURIComponent(slug)}&limit=1`,{headers});const data=await r.json();if(data.length){n=data[0];allNews.push(n);renderArticle(n)}}
-function goHome(){window.location.hash='';document.getElementById('homePage').style.display='block';document.getElementById('articlePage').style.display='none';currentFilter='';searchQuery='';document.getElementById('searchInput').value='';displayedCount=0;buildHero();renderNews()}
-window.addEventListener('hashchange',()=>{const h=window.location.hash,m=h.match(/^#\/article\/(.+)$/);if(m)openArticleBySlug(decodeURIComponent(m[1]));else{document.getElementById('homePage').style.display='block';document.getElementById('articlePage').style.display='none'}});
-function filterTag(t){currentFilter=t;displayedCount=0;if(t)document.getElementById('heroSection').innerHTML='';else buildHero();document.getElementById('homePage').style.display='block';document.getElementById('articlePage').style.display='none';renderNews()}
-function debounceSearch(){clearTimeout(searchTimer);searchTimer=setTimeout(()=>{searchQuery=document.getElementById('searchInput').value.toLowerCase();displayedCount=0;if(searchQuery)document.getElementById('heroSection').innerHTML='';else buildHero();renderNews()},300)}
-init();
+let allNews=[],currentFilter='',searchQuery='';
+function parseTags(h){if(!h)return[];if(Array.isArray(h))return h;if(typeof h==='string')return h.split('#').filter(Boolean);return[]}
+
+async function loadNews(){
+const r=await fetch(`${SUPABASE_URL}/rest/v1/noticiasesp?status=eq.publicado&order=created_at.desc&limit=60`,
+{headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`}});
+allNews=await r.json();
+buildHero();buildFilters();renderNews();checkHash();
+}
+
+function buildHero(){
+const el=document.getElementById('heroSection');
+if(!allNews.length){el.innerHTML='<div class="loader">Esperando noticias...</div>';return}
+const n=allNews[0];const rest=allNews.slice(1,4);
+const tags=parseTags(n.hashtags);
+el.innerHTML=`<div class="featured">
+<div class="featured-main" onclick="showArticle('${n.slug||n.id}')">
+<div class="featured-img"></div>
+<h2>${n.titulo_noticia}</h2>
+<p>${(n.resumo_noticia||'').replace(/<[^>]*>/g,'').slice(0,180)}...</p>
+<div class="meta"><span>${tags[0]||'Cripto'}</span> · ${n.created_at?new Date(n.created_at).toLocaleDateString('es-ES',{day:'numeric',month:'short'}):''}</div>
+</div>
+<div class="featured-side">${rest.map((r,i)=>{
+const t=parseTags(r.hashtags);
+return`<div class="side-card" onclick="showArticle('${r.slug||r.id}')">
+<div><h3>${r.titulo_noticia}</h3><p>${(r.resumo_noticia||'').replace(/<[^>]*>/g,'').slice(0,100)}...</p>
+<div class="meta"><span>${t[0]||'Cripto'}</span> · ${r.created_at?new Date(r.created_at).toLocaleDateString('es-ES',{day:'numeric',month:'short'}):''}</div></div>
+<div class="side-thumb"></div></div>`}).join('')}
+</div></div>`;
+}
+
+function buildFilters(){
+const cats=[...new Set(allNews.flatMap(n=>parseTags(n.hashtags).slice(0,3)))].slice(0,6);
+document.getElementById('filters').innerHTML='<div class="filter-btn active" onclick="setFilter(\'\')">Todas</div>'+
+cats.map(c=>`<div class="filter-btn" onclick="setFilter('${c}')">${c}</div>`).join('');
+document.getElementById('navFilters').innerHTML=cats.slice(0,4).map(c=>`<a href="#" onclick="event.preventDefault();setFilter('${c}')">${c}</a>`).join('');
+}
+
+function setFilter(f){currentFilter=f;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active',b.textContent===f||(f===''&&b.textContent==='Todas')));renderNews()}
+function getFiltered(){let f=allNews;if(currentFilter)f=f.filter(n=>parseTags(n.hashtags).includes(currentFilter));if(searchQuery)f=f.filter(n=>(n.titulo_noticia||'').toLowerCase().includes(searchQuery)||(n.resumo_noticia||'').toLowerCase().includes(searchQuery));return f}
+
+function renderNews(){
+const f=getFiltered(),start=currentFilter||searchQuery?0:4;
+const variants=['','v2','v3','v4'];
+document.getElementById('newsGrid').innerHTML=f.slice(start,20).map((n,i)=>{
+const tags=parseTags(n.hashtags);
+const date=n.created_at?new Date(n.created_at).toLocaleDateString('es-ES',{day:'numeric',month:'short'}):''
+return`<div class="news-card" onclick="showArticle('${n.slug||n.id}')">
+<div class="card-img ${variants[i%4]}"></div>
+<h3>${n.titulo_noticia}</h3>
+<p>${(n.resumo_noticia||'').replace(/<[^>]*>/g,'').slice(0,140)}...</p>
+<div class="meta"><span>${tags[0]||'Cripto'}</span> · ${date}</div></div>`}).join('');
+}
+
+function parseMarkdown(md){if(!md)return'';return md.replace(/^### (.+)$/gm,'<h3>$1</h3>').replace(/^## (.+)$/gm,'<h2>$1</h2>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>').replace(/^- (.+)$/gm,'<li>$1</li>').replace(/(<li>.*<\/li>)/gs,'<ul>$1</ul>').replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank">$1</a>').replace(/\n\n/g,'</p><p>').replace(/^/,'<p>').replace(/$/,'</p>')}
+
+async function showArticle(slug){
+let n=allNews.find(a=>(a.slug||a.id)==slug);
+if(!n){const r=await fetch(`${SUPABASE_URL}/rest/v1/noticiasesp?slug=eq.${slug}&limit=1`,{headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`}});const d=await r.json();if(d.length)n=d[0]}
+if(!n)return;
+document.getElementById('artTitle').textContent=n.titulo_noticia;
+document.getElementById('artMeta').innerHTML=`${n.created_at?new Date(n.created_at).toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):''} · ${parseTags(n.hashtags).map(h=>'#'+h).join(' ')}`;
+document.getElementById('artBody').innerHTML=parseMarkdown(n.corpo_noticia||n.resumo_noticia||'');
+document.getElementById('mainView').style.display='none';document.getElementById('articleView').style.display='block';
+location.hash='/article/'+slug;window.scrollTo(0,0);
+}
+function goBack(){document.getElementById('mainView').style.display='';document.getElementById('articleView').style.display='none';location.hash=''}
+function doSearch(q){searchQuery=q.toLowerCase();renderNews()}
+function checkHash(){const h=location.hash;if(h.startsWith('#/article/'))showArticle(h.replace('#/article/',''))}
+window.addEventListener('hashchange',checkHash);
+loadNews();
 </script>
 </body>
 </html>
